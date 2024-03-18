@@ -151,12 +151,73 @@ h1 {
 #inv-display {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  justify-items: center;
   gap: 1rem;
 }
 
+#inv-display li {
+  border: 1px solid black;
+  border-radius: 10px;
+  list-style: none;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  width: 300px;
+}
+#inv-display li img {
+  display: block;
+  margin: auto;
+  width: 70%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+.namePrice hr {
+  background-color: black;
+  height: 2px;
+  padding: 2px;
+}
+.namePrice h2 {
+  text-align: center;
+}
+.namePrice a {
+  color: black;
+  text-decoration: none;
+}
+.namePrice span {
+  display: block;
+  text-align: center;
+  font-size: 1.2rem;
+}
 
+/* Details */
+.bold {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+#image-box img {
+  width: 100%;
+  height: auto;
+  border-radius: 15px;
+}
+
+main {
+  padding: 1rem;
+}
+
+/* Footer */
 footer {
   background-color: black;
+  color: white;
+}
+
+footer p {
+  margin: 0;
+}
+
+footer p a{
+  margin-bottom: 0px;
+  margin-left: 5px;
   color: white;
 }
 
@@ -187,5 +248,16 @@ footer {
   }
   .section-reviews li {
     font-size: 110%;
+  }
+
+  
+}
+
+@media screen and (min-width: 970px) {
+  /* details */
+  #details-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
 }
