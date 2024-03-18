@@ -34,6 +34,11 @@ nav ul{
   color: white;
 }
 
+nav ul li a{
+  text-decoration: none;
+  color: white;
+}
+
 header a {
   text-decoration: none;
   color: black;
@@ -141,6 +146,14 @@ h1 {
   padding-top: 10px;
   padding-bottom: 10px;
 }
+
+/* Classification */
+#inv-display {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
 
 footer {
   background-color: black;

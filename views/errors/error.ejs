@@ -1,0 +1,7 @@
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <!-- error in title puting equal at end =%>, now fixed -->
+<% } else { res.redirect('/') } %>
+
+<p><%- message %></p> 
+<!-- error to put message out of p -->
