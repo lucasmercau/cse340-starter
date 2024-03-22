@@ -1,0 +1,44 @@
+<h1><%- title %></h1>
+<div class="center">
+    <div id="form-div">
+        <form action="/account/register" method="post">
+            <fieldset>
+                <h1><%- title %></h1>
+                <p><i>All fields are required.</i></p>
+                <%- messages() %>
+                <% if (errors) { %>
+                    <ul class="notice">
+                <% errors.array().forEach(error => { %>
+                     <li><%= error.msg %></li>
+                <%  }) %>
+                   </ul>
+                <% } %>
+                <label class="top">First Name: <input type="text" name="account_firstname" required></label>
+                <label class="top">Last Name: <input type="text" name="account_lastname" required></label> 
+                <label class="top">Email Address: <input type="email" name="account_email" id="email" required></label>
+                <label class="top">Password: <input type="password" name="account_password" id="password" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$" required></label>
+                <span><i>Passwords must be at least 12 characters and contain at least 1 number, 1 capital letter and 1 special character</i></span> 
+                <div class="leftPswrd">
+                    <span id="pswdBtn">Show Password</span>
+                </div>
+                <div class="submitBtn">
+                    <input type="submit" value="<%- title %>">
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<script>
+    const pswdBtn = document.querySelector("#pswdBtn");
+    pswdBtn.addEventListener("click", function() {
+    const pswdInput = document.getElementById("password");
+    const pswdType = pswdInput.getAttribute("type");
+    if (pswdType == "password") {
+        pswdInput.setAttribute("type", "text")
+        pswdBtn.innerHTML = "Hide Password";
+    } else {
+        pswdInput.setAttribute("type", "password")
+        pswdBtn.innerHTML = "Show Password";
+    }
+})
+</script>
