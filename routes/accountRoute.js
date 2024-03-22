@@ -7,6 +7,14 @@ const utilities = require("../utilities/")
 
 // Route to build login view
 router.get("/login", utilities.handleErrors(accountController.buildLogin))
+// Process the login attempt
+router.post(
+    "/login",
+    regValidate.loginRules(),
+    regValidate.checkLogData, 
+    utilities.handleErrors((req, res) => {
+        res.status(200).send('login process')
+    }))
 
 // Route to build register view
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
