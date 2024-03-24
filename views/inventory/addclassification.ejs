@@ -1,0 +1,28 @@
+<h1><%- title %></h1>
+<div class="center">
+    <div id="form-div">
+        <form action="/inv/classification" method="post">
+            <fieldset>
+                <p><i>Field is required.</i></p>
+                <%- messages() %>
+                <% if (errors) { %>
+                    <ul class="notice">
+                        <% errors.array().forEach(error => { %>
+                            <% if (error.msg !== "Invalid value") { %>
+                                <li><%= error.msg %></li>
+                            <% } %>
+                        <% }) %>
+                    </ul>
+                <% } %>
+                <h2 class="center"><strong>Classification Name</strong></h2>
+                <p><span><i>NAME MUST BE ALPHABETIC CHARACTERS ONLY</i></span></p>
+                <label class="top"><input type="text" name="classification_name" required value="<%= locals.classification_name %>" pattern="[A-Za-z]+"></label>
+                <br>
+                <div class="submitBtn">
+                    <input type="submit" value="<%- title %>">
+                </div>
+                <br>
+            </fieldset>
+        </form>
+    </div>
+</div>

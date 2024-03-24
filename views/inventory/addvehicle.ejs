@@ -1,0 +1,44 @@
+<h1><%- title %></h1>
+<div class="center">
+    <div id="form-div">
+        <form action="/inv/vehicle" method="post">
+            <fieldset>
+                <p><i>All fields are required.</i></p>
+                <%- messages() %>
+                <% if (errors) { %>
+                    <ul class="notice">
+                        <% errors.array().forEach(error => { %>
+                            <% if (error.msg !== "Invalid value") { %>
+                                <li><%= error.msg %></li>
+                            <% } %>
+                        <% }) %>
+                    </ul>
+                <% } %>
+                <label class="top">Classification <%- list %></label>
+                
+                <label class="top">Make<input type="text" name="inv_make" required placeholder="Min of 3 characters" pattern=".{3,}" value="<%= locals.inv_make %>"></label>
+                
+                <label class="top">Model<input type="text" name="inv_model" required placeholder="Min of 3 characters" pattern=".{3,}" value="<%= locals.inv_model %>"></label>
+                
+                <label class="top">Description<textarea name="inv_description" id="inv_description" cols="32" rows="5" required><%= locals.inv_description %></textarea></label>
+                
+
+                <label class="top">Image Path<input type="text" name="inv_image" required value="<%= locals.inv_image ? locals.inv_image.replace(/&#x2F;/g, '/') : '/images/vehicles/no-image.png' %>"></label>
+                <label class="top">Thumbnail Path<input type="text" name="inv_thumbnail" required <% if (locals.inv_thumbnail) { %>value="<%= locals.inv_thumbnail.replace(/&#x2F;/g, '/') %>" <% } else { %>value="/images/vehicles/no-image.png" <% } %>></label>
+
+                <label class="top">Price<input type="text" name="inv_price" required placeholder="Decimal or Interger" pattern ="-?\d+(\.\d+)?" value="<%= locals.inv_price %>"></label>
+                <label class="top">Year<input type="text" name="inv_year" required placeholder="4-digit year" pattern="[0-9]{4,4}" value="<%= locals.inv_year %>"></label>
+                <label class="top">Miles<input type="text" name="inv_miles" required placeholder="Digits only" pattern="[0-9]{1,}" value="<%= locals.inv_miles %>"></label>
+
+                <label class="top">Color<input type="text" name="inv_color" required value="<%= locals.inv_color %>"></label>
+
+                <br>
+                <div class="submitBtn">
+                    <input type="submit" value="<%- title %>">
+                </div>
+                <br>
+            </fieldset>
+        </form>
+    </div>
+</div>
+
