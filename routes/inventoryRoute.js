@@ -35,4 +35,17 @@ router.post(
     regValidate.checkVehicleData, 
     utilities.handleErrors(invController.addVehicle))
 
+// Get Inventory in Manage Inventory at ../inv/
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
+// Edit inventory view
+router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEdit))
+// Update inventory
+router.post(
+    "/update/",
+    regValidate.updateRules(),
+    regValidate.checkUpdateData,
+     utilities.handleErrors(invController.updateInventory))
+
+
 module.exports = router;

@@ -12,9 +12,7 @@ router.post(
     "/login",
     regValidate.loginRules(),
     regValidate.checkLogData, 
-    utilities.handleErrors((req, res) => {
-        res.status(200).send('login process')
-    }))
+    utilities.handleErrors(accountController.accountLogin))
 
 // Route to build register view
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
@@ -24,5 +22,7 @@ router.post(
     regValidate.registationRules(),
     regValidate.checkRegData, 
     utilities.handleErrors(accountController.registerAccount))
+// Management route
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement))
 
 module.exports = router

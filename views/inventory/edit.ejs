@@ -1,7 +1,7 @@
 <h1><%- title %></h1>
 <div class="center">
     <div id="form-div">
-        <form action="/inv/vehicle" method="post">
+        <form action="/inv/update" method="post" id="updateForm">
             <fieldset>
                 <p><i>All fields are required.</i></p>
                 <%- messages() %>
@@ -22,9 +22,9 @@
                 
                 <label class="top">Description<textarea name="inv_description" id="inv_description" cols="32" rows="5" required><%= locals.inv_description %></textarea></label>
                 
-                
-                <label class="top">Image Path<input type="text" name="inv_image" required value="<%= locals.inv_image ? locals.inv_image.replace(/&#x2F;/g, '/') : '/images/vehicles/no-image.png' %>"></label>
-                <label class="top">Thumbnail Path<input type="text" name="inv_thumbnail" required <% if (locals.inv_thumbnail) { %>value="<%= locals.inv_thumbnail.replace(/&#x2F;/g, '/') %>" <% } else { %>value="/images/vehicles/no-image.png" <% } %>></label>
+
+                <label class="top">Image Path<input type="text" name="inv_image" required value="<%= locals.inv_image %>"></label>
+                <label class="top">Thumbnail Path<input type="text" name="inv_thumbnail" required value="<%= locals.inv_thumbnail %>"></label>
 
                 <label class="top">Price<input type="text" name="inv_price" required placeholder="Decimal or Interger" pattern ="-?\d+(\.\d+)?" value="<%= locals.inv_price %>"></label>
                 <label class="top">Year<input type="text" name="inv_year" required placeholder="4-digit year" pattern="[0-9]{4,4}" value="<%= locals.inv_year %>"></label>
@@ -34,11 +34,14 @@
 
                 <br>
                 <div class="submitBtn">
-                    <input type="submit" value="<%- title %>">
+                    <input type="submit" name="submit" value="Update Vehicle" id="button" disabled>
                 </div>
+                <input type="hidden" name="inv_id"
+                <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+                <% } %>>
                 <br>
             </fieldset>
         </form>
     </div>
 </div>
-
+<script src="../../js/inv-update.js"></script>
