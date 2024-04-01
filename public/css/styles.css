@@ -44,6 +44,15 @@ header a {
   color: black;
 }
 
+.accounthov {
+  padding: 5px;
+}
+
+.accounthov:hover {
+  background-color: #000;
+  color: white;
+}
+
 .siteName {
   font-size: 180%;
   margin-left: 5px;
@@ -217,6 +226,7 @@ main {
   background-color: #01b0d359;
   border: 5px solid black;
   border-radius: 10px;
+  margin-left: 20px;
 }
 
 fieldset {
@@ -281,6 +291,10 @@ textarea:required:invalid, textarea:focus:invalid {
 textarea:required:valid {
   background-color: white;
   border-bottom: green 4px solid;
+}
+
+input.read {
+  background-color: #E5E5E5 !important;
 }
 
 /* Vehicle Management */

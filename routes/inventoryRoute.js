@@ -15,22 +15,24 @@ router.get("/detail/:invId", utilities.handleErrors(invController.buildVehicleDe
 router.get("/error", utilities.handleErrors(invController.errorRoute))
 
 //Route Vehicle Management
-router.get("/", utilities.handleErrors(invController.buildInventoryManagement))
+router.get("/", utilities.accountType, utilities.handleErrors(invController.buildInventoryManagement))
 
 //Route Vehicle Management Classification
-router.get("/classification", utilities.handleErrors(invController.buildAddClassification))
+router.get("/classification", utilities.accountType, utilities.handleErrors(invController.buildAddClassification))
 //Add New Classification
 router.post(
     "/classification",
+    utilities.accountType,
     regValidate.classificationRules(),
     regValidate.checkClassificationData, 
     utilities.handleErrors(invController.addClassification))
 
 //Route Vehicle Management to add Vehicle
 router.get("/vehicle", utilities.handleErrors(invController.buildAddVehicle))
-//Add New Classification
+//Add New Vehicle
 router.post(
     "/vehicle",
+    utilities.accountType,
     regValidate.vehicleRules(),
     regValidate.checkVehicleData, 
     utilities.handleErrors(invController.addVehicle))
@@ -39,13 +41,22 @@ router.post(
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
 // Edit inventory view
-router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEdit))
+router.get("/edit/:inv_id", utilities.accountType, utilities.handleErrors(invController.buildEdit))
 // Update inventory
 router.post(
     "/update/",
+    utilities.accountType,
     regValidate.updateRules(),
     regValidate.checkUpdateData,
      utilities.handleErrors(invController.updateInventory))
+
+// Delete inventory Route
+router.get("/delete/:inv_id", utilities.accountType, utilities.handleErrors(invController.buildDeleteView))
+// Delete inventory
+router.post(
+    "/delete",
+    utilities.accountType,
+    utilities.handleErrors(invController.deleteInventory))
 
 
 module.exports = router;

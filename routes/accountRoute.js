@@ -25,4 +25,24 @@ router.post(
 // Management route
 router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildManagement))
 
+// Route to build update account view
+router.get("/update", utilities.handleErrors(accountController.buildUpdateAccount))
+// Update account from register page
+router.post(
+    "/update",
+    regValidate.updateAccountRules(),
+    regValidate.checkUpdAccData, 
+    utilities.handleErrors(accountController.updateAccount))
+// Update account from register page
+router.post(
+    "/updatepassword",
+    regValidate.updatePasswordRules(),
+    regValidate.checkUpdAccData, 
+    utilities.handleErrors(accountController.updatePassword))
+
+//Logout Account
+router.get("/logout", accountController.logoutAccount);
+
+router.use(utilities.checkJWTToken)
+
 module.exports = router
