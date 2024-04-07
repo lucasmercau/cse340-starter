@@ -1,4 +1,5 @@
 const accountModel = require("../models/account-model")
+const invModel = require("../models/inventory-model")
 const utilities = require(".")
     const { body, validationResult } = require("express-validator")
     const validate = {}
@@ -479,5 +480,93 @@ validate.updatePasswordRules = () => {
       .withMessage("Password does not meet requirements."),
   ]
 }
+
+/*  **********************************
+  *  Add New Classification Rules
+  * ********************************* */
+validate.commentRules = () => {
+  return [
+    // valid comment is required
+    body("comment_text")
+    .trim()
+    .escape()
+    .notEmpty()
+    .isLength({ min: 1 })
+    .withMessage("The comment cannot be empty."),
+    ]
+  }
+  
+/* ******************************
+ * Check inventory data and return errors or continue to Management view
+ * ***************************** */
+validate.checkCommentData = async (req, res, next) => {
+  const { inv_id, comment_text, account_id } = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    const data = await invModel.getInventoryDetailById(inv_id)
+    const comment_data = await invModel.getCommentByInventoryId(inv_id)
+    console.log(comment_data)
+    const details = await utilities.buildVehicleDetail(data)
+    const comments = await utilities.buildCommentsSection(comment_data)
+    let nav = await utilities.getNav()
+    const vehicleYear = data[0].inv_year
+    const vehicleMake = data[0].inv_make
+    const vehicleModel = data[0].inv_model
+    const vehicleId = data[0].inv_id
+    res.render("./inventory/details", {
+      title: `${vehicleYear} ${vehicleMake} ${vehicleModel} Details`,
+      nav,
+      details,
+      invid: vehicleId,
+      comments,
+      errors,
+    })
+    return
+  }
+  next()
+}
+
+/*  **********************************
+  *  Add New Classification Rules
+  * ********************************* */
+validate.updateTypeRules = () => {
+  return [
+    // valid email is required and cannot already exist in the DB
+    body("account_id")
+    .trim()
+    .notEmpty()
+    .isInt()
+    .withMessage("The email is required."),
+    
+    // valid email is required and cannot already exist in the DB
+    body("account_type")
+    .trim()
+    .notEmpty()
+    .withMessage("The account type is required."),
+    ]
+  }
+  
+/* ******************************
+ * Check inventory data and return errors or continue to Management view
+ * ***************************** */
+validate.checkUpdateTypeData = async (req, res, next) => {
+  const { account_id } = req.body
+  let errors = []
+  errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    let nav = await utilities.getNav()
+    const emailSelect = await utilities.buildEmailList(account_id)
+    res.render("account/update-type", {
+      title: "Update Account Type",
+      nav,
+      errors,
+      emaillist: emailSelect,
+    })
+    return
+  }
+  next()
+}
+
 
 module.exports = validate

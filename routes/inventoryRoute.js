@@ -58,5 +58,23 @@ router.post(
     utilities.accountType,
     utilities.handleErrors(invController.deleteInventory))
 
+router.post(
+    "/comment",
+    utilities.checkLoginComment,
+    regValidate.commentRules(),
+    regValidate.checkCommentData,
+    utilities.handleErrors(invController.sendComment))
+
+// router.get(
+//     "/delete-classification",
+//     utilities.adminType,
+//     utilities.handleErrors(invController.buildDeleteClassification)
+// )
+// router.post(
+//     "/delete-classification",
+//     utilities.adminType,
+//     utilities.handleErrors(invController.deleteClassification)
+// )
+
 
 module.exports = router;

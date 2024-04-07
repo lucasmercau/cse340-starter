@@ -41,7 +41,20 @@ router.post(
     utilities.handleErrors(accountController.updatePassword))
 
 //Logout Account
-router.get("/logout", accountController.logoutAccount);
+router.get("/logout", accountController.logoutAccount)
+
+router.post(
+    "/updatetype",
+    utilities.adminType,
+    regValidate.updateTypeRules(),
+    regValidate.checkUpdateTypeData,
+    utilities.handleErrors(accountController.updateType))
+
+//Update Account Type only Admin
+router.get(
+    "/accounttype",
+    utilities.adminType, 
+    utilities.handleErrors(accountController.buildAccountType))
 
 router.use(utilities.checkJWTToken)
 

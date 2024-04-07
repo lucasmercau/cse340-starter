@@ -302,6 +302,22 @@ input.read {
   margin-left: 20px;
 }
 
+/* Comment Area */
+#comment_text {
+  width: 100%;
+}
+.comment-list {
+  padding: 5px;
+  min-height: 50px;
+}
+li.comment-list:nth-child(odd) {
+  background-color: #f2f2f2;
+}
+.ulcomment {
+  list-style: none;
+  padding-left: 0;
+}
+
 /* Footer */
 footer {
   background-color: black;

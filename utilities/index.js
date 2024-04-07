@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const invModel = require("../models/inventory-model")
+const accModel = require("../models/account-model")
 const Util = {}
 
 /* ************************
@@ -180,6 +181,73 @@ Util.accountType = (req, res, next) => {
     req.flash("notice", "You don't have the required account to access.")
     return res.redirect("/account/login")
   }
+}
+
+/******************************
+ * Check account type of is Admin
+ **************************/
+Util.adminType = (req, res, next) => {
+  if(res.locals.accountData) {
+    if (res.locals.accountData.account_type == "Admin") {
+      next()
+    } else {
+      req.flash("notice", "Access is forbidden.")
+      return res.redirect("/account/")
+    }
+  } else{
+    req.flash("notice", "You don't have the required account to access.")
+    return res.redirect("/account/login")
+  }
+}
+
+/************************
+ * Build drop-down select list of mails.
+ ********************/
+Util.buildEmailList = async function (account_id = null) {
+  let data = await accModel.getAccounts()
+  let emailList =
+    '<select name="account_id" id="emailList" required>'
+    emailList += "<option value=''>Choose an Email</option>"
+  data.rows.forEach((row) => {
+    emailList += '<option value="' + row.account_id + '"'
+    if (
+      account_id != null &&
+      row.account_id == account_id
+    ) {
+      emailList += " selected "
+    }
+    emailList += ">" + row.account_email + "</option>"
+  })
+  emailList += "</select>"
+  return emailList
+}
+
+/* ****************************************
+ *  Check Login for Comments
+ * ************************************ */
+Util.checkLoginComment = (req, res, next) => {
+  if (res.locals.loggedin) {
+    next()
+  } else {
+    req.flash("notice", "Please log in if you want to comment.")
+    return res.redirect("/account/login")
+  }
+ }
+
+/************************
+ * Build the comment HTML
+ ********************/
+Util.buildCommentsSection = async function (data) {
+  let comments = ""
+  if (!data) {
+    comments = "<li>There are no comments.</li>"
+  } else {
+    data.forEach(comment => {
+      comments += "<li class='comment-list'> <strong>" + comment.account_firstname + " commented :</strong> " + comment.comment_text + "</li>"
+    })
+    
+  }
+  return comments
 }
 
 module.exports = Util

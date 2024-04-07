@@ -172,7 +172,7 @@ async function updateAccount(req, res) {
 }
 
 /* ****************************************
-*  Update an account
+*  Update an account password
 * *************************************** */
 async function updatePassword(req, res) {
   let nav = await utilities.getNav()
@@ -214,6 +214,50 @@ async function updatePassword(req, res) {
   }
 }
 
+/* ****************************************
+*  Deliver the Account Type view
+* *************************************** */
+async function buildAccountType(req, res, next) {
+  let nav = await utilities.getNav()
+  const emailSelect = await utilities.buildEmailList()
+  res.render("account/update-type", {
+    title: "Update Account Type",
+    nav,
+    errors: null,
+    emaillist: emailSelect,
+  })
+}
+
+/* ****************************************
+*  Update an account type
+* *************************************** */
+async function updateType(req, res) {
+  let nav = await utilities.getNav()
+  const { account_id, account_type } = req.body
+  const emailSelect = await utilities.buildEmailList(account_id)
+  const updResult = await accountModel.updateType(
+    account_type,
+    account_id
+  )
+
+  if (updResult) {
+    req.flash("notice", `Congratulations, you updated an Account Type to ${account_type}!`)
+    res.status(201).render("account/management", {
+      title: "Account Management",
+      nav,
+      errors: null,
+    })
+  } else {
+    req.flash("notice", "Sorry, the type update failed.")
+    res.status(501).render("account/update-type", {
+      title: "Update Account Type",
+      nav,
+      errors: null,
+      emaillist: emailSelect,
+    })
+  }
+}
+
 
 /* ****************************************
 *  Logout Account and delete cookie
@@ -224,4 +268,4 @@ function logoutAccount(req, res){
   return res.redirect("/");
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildManagement, buildUpdateAccount, updateAccount, updatePassword, logoutAccount }
+module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildManagement, buildUpdateAccount, updateAccount, updatePassword, buildAccountType, updateType, logoutAccount }

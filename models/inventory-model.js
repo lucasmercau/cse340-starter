@@ -118,5 +118,35 @@ async function deleteInventory(inv_id){
   }
 }
 
+/* ****************************************
+*  Assigment 7
+*  Add Comment
+* *************************************** */
+async function sendComment(inv_id, comment_text, account_id){
+  try {
+    const sql = "INSERT INTO comment (comment_text, inv_id, account_id) VALUES ($1, $2, $3) RETURNING *"
+    return await pool.query(sql, [comment_text, inv_id, account_id])
+  } catch (error) {
+    return error.message
+  }
+}
 
-module.exports = {getClassifications, getInventoryByClassificationId, getInventoryDetailById, addClassification, addVehicle, updateInventory, fixUpdate, getInventoryById, deleteInventory}
+async function getCommentByInventoryId(inv_id){
+    try {
+      const data = await pool.query(
+        `SELECT comment_id, comment_text, inv_id, account_firstname
+        FROM public.comment
+          JOIN public.account
+          ON public.comment.account_id = public.account.account_id 
+        WHERE inv_id = $1
+        ORDER BY comment_id ASC`,
+        [inv_id]
+      )
+      return data.rows
+    } catch (error) {
+      console.error("getInventoryDetail error " + error)
+    }
+}
+
+
+module.exports = {getClassifications, getInventoryByClassificationId, getInventoryDetailById, addClassification, addVehicle, updateInventory, fixUpdate, getInventoryById, deleteInventory, sendComment, getCommentByInventoryId}

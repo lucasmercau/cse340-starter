@@ -27,15 +27,22 @@ invCont.buildByClassificationId = async function (req, res, next) {
 invCont.buildVehicleDetail = async function (req, res, next) {
   const inv_id = await req.params.invId;
   const data = await invModel.getInventoryDetailById(inv_id)
+  const comment_data = await invModel.getCommentByInventoryId(inv_id)
+  console.log(comment_data)
   const details = await utilities.buildVehicleDetail(data)
+  const comments = await utilities.buildCommentsSection(comment_data)
   let nav = await utilities.getNav()
   const vehicleYear = data[0].inv_year
   const vehicleMake = data[0].inv_make
   const vehicleModel = data[0].inv_model
+  const vehicleId = data[0].inv_id
   res.render("./inventory/details", {
     title: `${vehicleYear} ${vehicleMake} ${vehicleModel} Details`,
     nav,
     details,
+    invid: vehicleId,
+    comments,
+    errors: null,
   })
 }
 
@@ -274,6 +281,22 @@ invCont.deleteInventory = async function(req, res) {
       inv_year,
       inv_price,
     })
+  }
+}
+
+invCont.sendComment = async function(req, res) {
+  let nav = await utilities.getNav()
+  const { inv_id, comment_text, account_id } = req.body
+
+  const commentSent  = await invModel.sendComment(inv_id, comment_text, account_id)
+
+  if (commentSent) {
+    nav = await utilities.getNav()
+    req.flash("notice", `The comment was succesfully added.`)
+    res.redirect(`/inv/detail/${inv_id}`)
+  } else {
+    req.flash("notice", "Sorry, sending the comment failed.")
+    res.redirect(`/inv/detail/${inv_id}`)
   }
 }
 

@@ -7,4 +7,9 @@
 <%- classificationSelect %>
 <table id="inventoryDisplay"></table>
 <noscript>JavaScript must be enabled to use this page.</noscript>
+<% if (locals.accountData.account_type == "Admin" ) { %>            
+    <!-- <h2>Delete Classification</h2>
+    <a href="/inv/delete-classification">Delete Classification</a>
+    <br> -->
+    <% } %>
 <script src="../../js/inventory.js"></script>
